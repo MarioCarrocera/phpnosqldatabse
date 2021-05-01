@@ -22,7 +22,7 @@ function nf($file, $to)
 	}
 }
 
-$files= array('OnTime.php','OnTimetmp.php','OTiCore.php');
+$files= array('OnTime.php','OnTimetmp.php','OTicore.php');
 echo 'Start '.'<br>';
 
 $base='ontime';
