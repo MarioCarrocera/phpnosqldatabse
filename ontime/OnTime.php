@@ -94,10 +94,6 @@ if (file_exists($base."OnTimeTableB.php")) {
 	include_once("OnTimeTableB.php");
 	$usat .= ',TableB';
 }
-if (file_exists($base."OnTimePageB.php")) {
-	include_once("OnTimePageB.php");
-	$usat .= ',PageB';
-}
 if (file_exists($base."OnTimeDebugP.php")) {
 	include_once("OnTimeDebugP.php");
 	$usat .= ',DebugP';

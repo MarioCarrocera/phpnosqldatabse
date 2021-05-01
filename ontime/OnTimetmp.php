@@ -122,14 +122,6 @@ if (file_exists($base."OnTimeLenguageB.php")) {
 	include_once("OnTimeLenguageB.php");
 	$usat .= ',LenguageB';
 }
-if (file_exists($base."OnTimePageB.php")) {
-	include_once("OnTimePageB.php");
-	$usat .= ',PageB';
-}
-if (file_exists($base."OTipage.php")) {	
-	include_once("OTipage.php");
-	$usat .= ',OTPage';
-}
 if (file_exists($base."OTicore.php")) {	
 	include_once("OTicore.php");
 	$usat .= ',OTcore';
