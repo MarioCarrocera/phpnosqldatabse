@@ -178,10 +178,9 @@ trait Debug{
 		}
 	}
 	function ot_reg($in,$from,$parameters){
-		$this->dbg_addin($from,array('in'=> str_replace('::'.$from,'',$in ),'parameters'=>count ($parameters)),"OnTime_Development.tas","help");
+		return;
 	}
 	function ot_func($in,$from,$parameters){
-		$this->dbg_addin($from,array('in'=> str_replace('::'.$from,'',$in ),'parameters'=>count ($parameters)),"OnTime_Development.tas","help");
 		if ($this->DebugActive){
 			if($this->DebugMode=='advance'){
 				$code = uniqid($this->actses , true );				
@@ -207,7 +206,6 @@ trait Debug{
 		$this->retval=FALSE;
 	}	
 	function ot_funct($in,$from,$parameters){
-		$this->dbg_addin($from,array('in'=>str_replace('::'.$from,'',$in ),'parameters'=>count ($parameters)),"OnTime_Development.tas","help");
 		if ($this->DebugActive){
 			if($this->DebugMode=='advance'){
 				$code = uniqid($this->actses , true );				
@@ -233,7 +231,6 @@ trait Debug{
 		$this->retval=TRUE;
 	}
 	function ot_log($in,$from,$parameters,$ret){		
-		$this->dbg_addin($from,array('in'=>str_replace('::'.$from,'',$in ),'parameters'=>count ($parameters)),"OnTime_Development.tas","help");
 		if (($this->err!="0") and ($this->SaveError)) {
 			$val =  array('kind'=>'Error','Code'=>$this->err,'Code'=>$this->id,'in'=>$in,'from'=>$from,'param'=>$parameters, "return"=>$ret);
 			$code = uniqid($this->actses , true );			
