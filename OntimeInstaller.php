@@ -35,9 +35,9 @@ foreach ($files as $x) {
 	}
 }
 if ($back) {
-	include_once($base."/OnTimetmp.php");
+	$base='ontime/';
+	include_once($base."OnTimetmp.php");
 	$install = new OnTime();
-	$install->Connect('admin','OT2021Free');
 	$install->InstallCore();
 	unlink($base."/OnTimetmp.php");	
 	unlink($base."/OTicore.php");		
