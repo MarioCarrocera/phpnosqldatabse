@@ -13,8 +13,15 @@ trait Allways{
 	private $lengD = 'none';
 	private $lengF = 'yes';
 	
+
 function __construct($container='ontime',$user='none',$pass='pass'){
-	$this->conected=FALSE;$this->container=$container;$this->features=$this->ot_readif('features.json');$this->content=$this->ot_readif('content.json');$this->errtext=$this->ot_readif('error.json');$this->level=$this->ot_readif('level.json');$this->status=$this->ot_readif('status.json');
+	$this->conected=FALSE;
+	$this->container=$container;
+	$this->features=$this->ot_readif('features.json');
+	$this->content=$this->ot_readif('content.json');
+	$this->errtext=$this->ot_readif('error.json');
+	$this->level=$this->ot_readif('level.json');
+	$this->status=$this->ot_readif('status.json');
 	if ($this->check()) {
 		if (array_key_exists('main', $this->features)) {
 			$this->errtext=$this->ot_readif('err.bas','main');
