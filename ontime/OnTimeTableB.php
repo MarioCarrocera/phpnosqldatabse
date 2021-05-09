@@ -110,6 +110,25 @@ trait TableB{
 		$this->ot_log( __METHOD__ , __FUNCTION__ , func_get_args() ,  $this->retarr  );
 		return $this->retval;
 	}
+
+	function UpsTblIn($table, $field, $data, $feature='table')
+	{
+		$this->VldClr();	
+		$safety= $this->ot_safety_level($table,'b',$feature);
+		if ($this->ot_level($safety,"update")) {
+			if ( $this->ot_getinside($table,'index.tas',$feature))  {
+				if ( $this->ot_lock($table,$feature)) {
+					if ($this->ot_valid($field, $data, $this->info['record'])) {
+						$this->ot_addchangein($this->retarr['key'], $this->retarr['record'],$table.'.tas',$feature);
+					}
+					$this->ot_un_lock($table,$feature);
+				}
+			}
+		}
+		$this->ot_log( __METHOD__ , __FUNCTION__ , func_get_args() ,  $this->retarr  );
+		return $this->retval;
+	}
+
 	
 	function UpmTblIn($table, $field, $data, $feature='table')
 	{

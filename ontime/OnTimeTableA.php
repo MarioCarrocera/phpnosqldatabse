@@ -20,7 +20,7 @@ trait TableA{
 		if ($this->ot_can('change','table') and $this->ot_can('change',$feature)) {
    			$tmp = $this->ot_readif('index.tas',$feature);
 			if ($this->not_in($table,$tmp) ){
-				if ($recname=='same') {
+				if ( $recname == 'same' ) {
 					$recname=$table;
 				}
 				if ($this->ot_exist($recname.'.rcd','record')) {
