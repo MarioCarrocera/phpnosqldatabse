@@ -3,11 +3,14 @@ trait Allways{
 	
 	private $actses='000000';	
 	public  $errvalid = array();
+	public  $dataresult = array();
 	private $datareview = array();
+	private $dataindex = array();
 	private $retarr = array();
 	private $tstring = ' SKRil';
 	private $force = FALSE;
 	private $info = array();
+	private $path = 'none';
 	private $lengR = 'none';
 	private $lengW = 'none';
 	private $lengD = 'none';

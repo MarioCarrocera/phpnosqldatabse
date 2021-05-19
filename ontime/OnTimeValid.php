@@ -35,11 +35,15 @@ trait Valid{
 		}
 		$this -> retarr  = [];
 		$retval = TRUE;
-		if ($this->ot_exist($record.'.rcd','record')) {	    
+		if ($this->ot_exist($record.'.rcd','record')) {	  
+			  
 			if ( $this->ot_getinside('key',$record.'.rcd' , 'record')){
 				$keyfield = $this->retval;
+				
 				$data = array_merge ($data,array($keyfield=>$field));
+
 				$this -> datareview = $this->ot_valid_d($data, $record);
+
 			} else {
 				$this -> ot_ae('C0010M040',$record,$field);
 			}
@@ -56,7 +60,28 @@ trait Valid{
 			return TRUE;			
 		}
 	}
-		function ot_lock($table,$feature){
+
+	protected function ot_validadv($data, $record){
+		$this->ot_func( __METHOD__ , __FUNCTION__ , func_get_args() );
+		$this -> retarr  = [];
+		$retval = TRUE;
+		if ($this->ot_exist($record.'.rcd','record')) {	  
+			$this -> datareview = $this->ot_valid_d($data, $record);
+		} else {
+			$this -> ot_ae('C0010M039',$record); 
+		}
+		
+		if (count($this -> errvalid)>0){
+			return FALSE;
+		} else {
+			$this->retarr['key']=$this -> datareview['id'];
+			unset($this -> datareview['id']);
+			$this->retarr['record']=$this -> datareview;
+			return TRUE;			
+		}
+	}
+	
+	function ot_lock($table,$feature){
 		$this->ot_funct( __METHOD__ , __FUNCTION__ , func_get_args() );
 		$this->info=$this->ot_readif($table.'.tin',$feature);
 		if ($this->ot_in('record', $this->info, $error='C0010M033')){
@@ -110,15 +135,23 @@ trait Valid{
 							if (!$this->ot_getinside($espec,$inner['content'].'.bas',$inner['in'])) {
 								$this -> ot_ae($this->err,$record,$key,$espec);
 								$this -> ot_ae('C0010M052',$record,$key,$espec);
+							} else {
+								$this->ot_addchangein($this->path.'.tas','from',$inner['content'].'.rel',$inner['in']);
+								$this->ot_addchangein($inner['in'].'/'.$inner['content'].'bas','to',$this->path.'.rel');
 							}
 						} elseif ($inner['Name']=='lookfrom') {
 							if (!$this->ot_getinside($espec,$inner['content'].'.tas',$inner['in'])) {
 								$this -> ot_ae($this->err,$record,$key,$espec);
 								$this -> ot_ae('C0010M052',$record,$key,$espec);
+							} else {
+								$this->ot_addchangein($this->path.'.tas','from',$inner['content'].'.rel',$inner['in']);
+								$this->ot_addchangein($inner['in'].'/'.$inner['content'].'tas','to',$this->path.'.rel');
 							}
 						} elseif ($inner['Name']=='bringin') {
 							if ($this->ot_getinside($espec,$inner['content'].'.bas',$inner['in'])) {
 								$retval = array_merge ($retval, array('%%'.$key => $this->retval));
+								$this->ot_addchangein($this->path.'.tas','from',$inner['content'].'.rel',$inner['in']);
+								$this->ot_addchangein($inner['in'].'/'.$inner['content'].'.bas','to',$this->path.'.rel');
 							} else {
 								$this -> ot_ae($this->err,$record,$key,$espec);
 								$this -> ot_ae('C0010M052',$record,$key,$espec);
@@ -127,29 +160,42 @@ trait Valid{
 
 							if ($this->ot_getinside($espec,$inner['content'].'.tas',$inner['in'])) {
 								$retval = array_merge ($retval, array('%%'.$key  => $this->retval));
+								$this->ot_addchangein($this->path.'.tas','from',$inner['content'].'.rel',$inner['in']);
+								$this->ot_addchangein($inner['in'].'/'.$inner['content'].'.tas','to',$this->path.'.rel');
 							} else {
 								$this -> ot_ae($this->err,$record,$key,$espec);
 								$this -> ot_ae('C0010M052',$record,$key,$espec);
 							}							
 						} elseif ($inner['Name']=='isin') {
-							if (!$this->ot_exist($espec,$inner['content'].'.bas',$inner['in'])) {
+							if (!$this->ot_exist($espec.'.bas',$inner['in'])) {
 								$this -> ot_ae($this->err,$record,$key,$espec);
 								$this -> ot_ae('C0010M052',$record,$key,$espec);
+							} else {
+								$this->ot_addchangein($this->path.'.tas','full_from',$inner['content'].'.rel',$inner['in']);
+								$this->ot_addchangein($inner['in'].'/'.$inner['content'].'.bas','full_to',$this->path.'.rel');
 							}
 						} elseif ($inner['Name']=='isfrom') {
-							if (!$this->ot_exist($espec,$inner['content'].'.tas',$inner['in'])) {
+							if (!$this->ot_exist($espec.'.tas',$inner['in'])) {
 								$this -> ot_ae($this->err,$record,$key,$espec);
 								$this -> ot_ae('C0010M052',$record,$key,$espec);
+							} else {
+								$this->ot_addchangein($this->path.'.tas','full_from',$espec.'.rel',$inner['in']);
+								$this->ot_addchangein($inner['in'].'/'.$espec.'.tas','full_to',$this->path.'.rel');								
 							}
 						} elseif ($inner['Name']=='subset') {
 							$retval = array_merge (array($key=>$this->ot_valid_d($espec, $inner['in'], 'si')),$retval);
+							$this->ot_addchangein($this->path.'.tas','subset_from',$inner['in'].'.rel','record');
+							$this->ot_addchangein('record/'.$inner['in'].'rcd','subset_to',$this->path.'.rel');	
 						} elseif ($inner['Name']=='subset_join') {
 							$tmp=$this->ot_valid_d($espec, $inner['in'],'si');
 							$tmp2 ='';
 							foreach ($tmp as $nametmp => $innertmp) {
 								$tmp2 .= $innertmp;
 							}				
+							$this->ot_addchangein($this->path.'.tas','subset_from',$inner['in'].'.rel','record');
+							$this->ot_addchangein('record/'.$inner['in'].'rcd','subset_to',$this->path.'.rel');	
 							$retval = array_merge (array($key=>$tmp,'%%'.$key=>$tmp2),$retval);		
+							
 						} elseif ($inner['Name']=='in') {
 							$this->ot_in($espec,$inner['in']);
 						} elseif ($inner['Name']=='minvalue') {
@@ -173,7 +219,7 @@ trait Valid{
 					}
 					if ($name=='FldTpe') {
 						if (strpos($this->tstring,$inner)) {
-							if ($inner=='K') {
+							if ($inner=='K' or $inner=='i') {
 								$keys += 1;
 							}
 							if (!is_string ( $espec ))
@@ -225,9 +271,9 @@ trait Valid{
 		}
 		if ($subset=='no'){
 			if ($keys<1) {
-				ot_ae('C0010M040',$record,$field,$value,$espec);}
+				$this -> ot_ae('C0010M040',$record,$field,$value,$espec);}
 			if ($keys>1) {
-				ot_ae('C0010M041',$record,$field,$value,$espec);}		
+				$this -> ot_ae('C0010M041',$record,$field,$value,$espec);}		
 		}
 		return $retval;
 	}	

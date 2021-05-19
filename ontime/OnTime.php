@@ -1,4 +1,4 @@
-<?php
+<<?php
 include_once("OnTimeAllways.php");
 $usat = 'use Allways';
 if (file_exists($base."OnTimeContent.php")) {
@@ -29,6 +29,10 @@ if (file_exists($base."OnTimeDebugB.php")) {
 		include_once("OnTimeDebug.php");
 		$usat .= ',Debug';
 	}
+}
+if (file_exists($base."OnTimeDebugP.php")) {
+	include_once("OnTimeDebugP.php");
+	$usat .= ',DebugP';
 }
 if (file_exists($base."OnTimeFunctions.php")) {
 	include_once("OnTimeFunctions.php");
@@ -78,6 +82,10 @@ if (file_exists($base."OnTimeBasicD.php")) {
 	include_once("OnTimeBasicD.php");
 	$usat .= ',BasicD';
 }
+if (file_exists($base."OnTimeBasicP.php")) {
+	include_once("OnTimeBasicP.php");
+	$usat .= ',BasicP';
+}
 if (file_exists($base."OnTimeDDD.php")) {
 	include_once("OnTimeDDD.php");
 	$usat .= ',DtDc';
@@ -94,9 +102,35 @@ if (file_exists($base."OnTimeTableB.php")) {
 	include_once("OnTimeTableB.php");
 	$usat .= ',TableB';
 }
-if (file_exists($base."OnTimeDebugP.php")) {
-	include_once("OnTimeDebugP.php");
-	$usat .= ',DebugP';
+if (file_exists($base."OnTimeTableP.php")) {
+	include_once("OnTimeTableP.php");
+	$usat .= ',TableP';
+}
+if (file_exists($base."OnTimeLinkA.php")) {
+	include_once("OnTimeLinkA.php");
+	$usat .= ',LinkA';
+}
+if (file_exists($base."OnTimeLinkB.php")) {
+	include_once("OnTimeLinkB.php");
+	$usat .= ',LinkB';
+}
+if (file_exists($base."OnTimeLenguageA.php")) {
+	include_once("OnTimeLenguageA.php");
+	$usat .= ',LenguageA';
+}
+if (file_exists($base."OnTimeLenguageB.php")) {
+	include_once("OnTimeLenguageB.php");
+	$usat .= ',LenguageB';
+}
+
+if (file_exists($base."xOnTimeAdvTableA.php")) {
+	include_once("OnTimeAdvTableA.php");
+	$usat .= ',AdvTableA';
+}
+
+if (file_exists($base."xOnTimeAdvTableB.php")) {
+	include_once("OnTimeAdvTableB.php");
+	$usat .= ',AdvTableB';
 }
 $usat ='class OnTime{'.$usat.';}';
 eval($usat);

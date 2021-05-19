@@ -62,6 +62,7 @@ trait TableB{
 	function InsTblIn($table, $field, $data, $feature='table')
 	{
 		$this->VldClr();	
+		$this->path=$feature.'/'.$table;
 		$safety= $this->ot_safety_level($table,'b',$feature);
 		if ($this->ot_level($safety,"insert")) {
 			if ( $this->ot_getinside($table,'index.tas',$feature))  {
@@ -80,6 +81,7 @@ trait TableB{
 	function dltTblIn($table, $field, $feature='table')
 	{
 		$this->VldClr();	
+		$this->path=$feature.'/'.$table;
 		$safety= $this->ot_safety_level($table,'b',$feature);
 		if ($this->ot_level($safety,"delete")) {
 			if ( $this->ot_getinside($table,'index.tas',$feature))  {
@@ -96,6 +98,7 @@ trait TableB{
 	function UpdTblIn($table, $field, $data, $feature='table')
 	{
 		$this->VldClr();	
+		$this->path=$feature.'/'.$table;
 		$safety= $this->ot_safety_level($table,'b',$feature);
 		if ($this->ot_level($safety,"update")) {
 			if ( $this->ot_getinside($table,'index.tas',$feature))  {
@@ -114,6 +117,7 @@ trait TableB{
 	function UpsTblIn($table, $field, $data, $feature='table')
 	{
 		$this->VldClr();	
+		$this->path=$feature.'/'.$table;
 		$safety= $this->ot_safety_level($table,'b',$feature);
 		if ($this->ot_level($safety,"update")) {
 			if ( $this->ot_getinside($table,'index.tas',$feature))  {
@@ -133,6 +137,7 @@ trait TableB{
 	function UpmTblIn($table, $field, $data, $feature='table')
 	{
 		$this->VldClr();	
+		$this->path=$feature.'/'.$table;
 		$safety= $this->ot_safety_level($table,'b',$feature);
 		if ($this->ot_level($safety,"update")) {
 			if ( $this->ot_getinside($table,'index.tas',$feature))  {
@@ -153,6 +158,7 @@ trait TableB{
 
 	function RlsTblIn($table,$feature='table'){
 		$this->VldClr();	
+		$this->path=$feature.'/'.$table;
 		if ($this->ot_level($safety,"change")) {
 			$this->info=$this->ot_readif($table.'.tin',$feature);
 			if ($this->ot_in('record', $this->info, $error='C0010M033')){
