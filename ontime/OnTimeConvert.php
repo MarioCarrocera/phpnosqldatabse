@@ -35,8 +35,8 @@ trait Convert{
 		$this->baseconv=$number;
 		return	$number+1;
 	}	
-	protected function ot_next($value){
-		$val=  substr('000000'.$this->ot_tobase($this->ot_tobase10($value)+1),-6);
-		return $this->ot_tobase($this->ot_tobase10($value)+1);
+	protected function ot_next($value, $size=8){
+		$cero = str_repeat("0", $size);
+		return substr($cero.$this->ot_tobase($this->ot_tobase10($value)+1), $size );
 	}
 }	

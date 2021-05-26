@@ -74,8 +74,8 @@ trait Valid{
 		if (count($this -> errvalid)>0){
 			return FALSE;
 		} else {
-			$this->retarr['key']=$this -> datareview['id'];
-			unset($this -> datareview['id']);
+			$this->retarr['key']=$this -> datareview['Id'];
+			unset($this -> datareview['Id']);
 			$this->retarr['record']=$this -> datareview;
 			return TRUE;			
 		}
@@ -194,10 +194,27 @@ trait Valid{
 							}				
 							$this->ot_addchangein($this->path.'.tas','subset_from',$inner['in'].'.rel','record');
 							$this->ot_addchangein('record/'.$inner['in'].'rcd','subset_to',$this->path.'.rel');	
-							$retval = array_merge (array($key=>$tmp,'%%'.$key=>$tmp2),$retval);		
-							
+							$retval = array_merge (array($key=>$tmp,'%%'.$key=>$tmp2),$retval);													} elseif ($inner['Name']=='subset_join_space') {
+							$tmp=$this->ot_valid_d($espec, $inner['in'],'si');
+							$tmp2 ='';
+							foreach ($tmp as $nametmp => $innertmp) {
+								if (is_string ( $innertmp )){
+									$tmp2 .= ' '.$innertmp;
+								}
+							}				
+							$this->ot_addchangein($this->path.'.tas','subset_from',$inner['in'].'.rel','record');
+							$this->ot_addchangein('record/'.$inner['in'].'rcd','subset_to',$this->path.'.rel');	
+							$retval = array_merge (array($key=>$tmp,'%%'.$key=>$tmp2),$retval);									
 						} elseif ($inner['Name']=='in') {
-							$this->ot_in($espec,$inner['in']);
+							if (!$this->ot_in($espec,$inner['content'])){
+								$this -> ot_ae($this->err,$record,$key,$espec);
+								$this -> ot_ae('C0010M026',$record,$key,$espec);
+							}
+						} elseif ($inner['Name']=='image') {
+							if (!$this->ot_pexist($espec,$inner['in'])) {
+								$this -> ot_ae($this->err,$record,$key,$espec);
+								$this -> ot_ae('C0010M052',$record,$key,$espec);
+							} 
 						} elseif ($inner['Name']=='minvalue') {
 						} elseif ($inner['Name']=='minvalue') {
 						} elseif ($inner['Name']=='maxvalue') {
@@ -251,6 +268,11 @@ trait Valid{
 						} elseif ($inner=='V'){
 							if (!$this -> DatVal( $espec ))
 								$this -> ot_ae('C0010M043',$record,$key,$espec,'Date');
+						} elseif ($inner=='M'){
+//							if (!$this -> DatVal( $espec ))
+//								$this -> ot_ae('C0010M043',$record,$key,$espec,'Date');
+						} elseif ($inner=='T'){
+
 						} else {
 							$this -> ot_ae('C0010M049',$record,$key,$inner);
 						}

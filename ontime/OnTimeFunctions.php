@@ -63,6 +63,27 @@ trait Functions{
 		$this->retval=$retval;
 		return $retval;
 	}	
+
+	protected function ot_pexist($file, $inside='no',$error="C0010M008"){
+		$this->ot_func( __METHOD__ , __FUNCTION__ , func_get_args() );
+		$retval=FALSE;
+		if ($inside=='no'){
+			if (file_exists($this->$file)){
+				$retval = TRUE;
+			} else {
+				$this->ot_ae($error,$file,$inside);
+			}
+		} else{
+			if (file_exists($this->$inside. '/'.$file)){
+				$retval = TRUE;
+			} else {
+				$this->ot_ae($error,$file,$inside);				
+			}
+		}
+		$this->retval=$retval;
+		return $retval;
+	}	
+
 	protected function ot_can($can, $safety){
 		$this->ot_func( __METHOD__ , __FUNCTION__ , func_get_args() );
 		if ($this->id == 'admin') {
@@ -154,7 +175,7 @@ trait Functions{
 	}	
 	protected function ot_destroy($what){
 		$this->ot_funct( __METHOD__ , __FUNCTION__ , func_get_args() );
-		foreach(glob($what . "/*")as $eachone){
+		foreach(glob($what . "/*") as $eachone){
 			if(is_dir($eachone)){
 				ot_destroy($eachone);
 			}else{

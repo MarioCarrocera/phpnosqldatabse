@@ -1,10 +1,6 @@
 <?php
 trait DateB{
-	private $Systimezone='UTC';
-	private $Usrtimezone='UTC';
-	private $Systimeformat = '';
-	private $Usrtimeformat = '';
-
+	
 	function Now(){
 		$this->ot_reg( __METHOD__ , __FUNCTION__ , func_get_args() );
 		$now=new DateTime('NOW',new DateTimeZone($this->Usrtimezone));
@@ -19,6 +15,13 @@ trait DateB{
 			$now=new DateTime('NOW',new DateTimeZone($tz));
 			$fecha=$now->format($this->Usrtimeformat);
 		}
+		return $fecha;
+	}
+
+	function TmeStp(){
+		$this->ot_reg( __METHOD__ , __FUNCTION__ , func_get_args() );
+		$now=new DateTime('NOW',new DateTimeZone($this->Usrtimezone));
+		$fecha=$now->format('YmdHisP');
 		return $fecha;
 	}
 
@@ -45,7 +48,7 @@ trait DateB{
 		return $now;
 	}
 
-	function DatStr($date, $format='Ymd', $tz='SYS'){
+	function DatStr($date, $format='YmdP', $tz='SYS'){
 		$this->ot_func( __METHOD__ , __FUNCTION__ , func_get_args() );
 		$fecha='error';
 		if ($this->DatVal($date, $format, $tz)){
@@ -54,14 +57,14 @@ trait DateB{
 		}
 		return $fecha;
 	}
-	function DatObj($date, $format='Ymd', $tz='SYS'){
+	function DatObj($date, $format='YmdP', $tz='SYS'){
 		$this->ot_func( __METHOD__ , __FUNCTION__ , func_get_args() );
 		if ($this->DatVal($date, $format, $tz)){
 			$now=$this->retval;
 		}
 		return $now;
 	}
-	function DatVal($date, $format='Ymd', $tz='SYS'){
+	function DatVal($date, $format='YmdP', $tz='SYS'){
 		$this->ot_funct( __METHOD__ , __FUNCTION__ , func_get_args() );
 		if ($tz=='SYS'){
 			$tz = $this->Systimezone;
@@ -84,7 +87,7 @@ trait DateB{
 		$this->retval=$now;
 		return True;
 	}
-	function DatTmeVal($date, $format='YmdHis', $tz='SYS'){
+	function DatTmeVal($date, $format='YmdHisP', $tz='SYS'){
 		$this->ot_funct( __METHOD__ , __FUNCTION__ , func_get_args() );
 		if ($tz=='SYS'){
 			$tz = $this->Systimezone;
@@ -106,7 +109,7 @@ trait DateB{
 		$this->retval=$now;
 		return TRUE;
 	}
-	function TmeVal($date, $format='His', $tz='SYS'){
+	function TmeVal($date, $format='HisP', $tz='SYS'){
 		$this->ot_funct( __METHOD__ , __FUNCTION__ , func_get_args() );
 		if ($tz=='SYS'){
 			$tz = $this->Systimezone;

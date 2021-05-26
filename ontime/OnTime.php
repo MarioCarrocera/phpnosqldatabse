@@ -132,6 +132,12 @@ if (file_exists($base."xOnTimeAdvTableB.php")) {
 	include_once("OnTimeAdvTableB.php");
 	$usat .= ',AdvTableB';
 }
+
+if (file_exists($base."OTicore.php")) {	
+	include_once("OTicore.php");
+	$usat .= ',OTcore';
+}
+
 $usat ='class OnTime{'.$usat.';}';
 eval($usat);
 ?>
