@@ -22,7 +22,7 @@ trait Allways{
 	private $lengF = 'yes';
 	
 
-function __construct($container='ontime',$user='none',$pass='pass'){
+function __construct($container='../ontime',$user='none',$pass='pass'){
 	$this->conected=FALSE;
 	$this->container=$container;
 	$this->features=$this->ot_readif('features.json');
@@ -41,11 +41,13 @@ function __construct($container='ontime',$user='none',$pass='pass'){
    	if ($this->ot_getinside('ld','admin.json','main')){
     		$this->lengD = $this->retval;} 
    	if ($this->ot_getinside('lf','admin.json','main')){
-    	$this->lengF = $this->retval;} 
+    	$this->lengF = 'none';} 
 	if ($user!='none'){
 		$this->Connect($user, $pass);}			
-	$this->ot_log( __METHOD__ , __FUNCTION__ , func_get_args() , $this->errvalid  );}
-	
+
+	$this->ot_log( __METHOD__ , __FUNCTION__ , func_get_args() , $this->errvalid  );
+    return $this->conected;
+}	
 function Connect($User, $Password){
 			if ($this->ot_connect(FALSE)) {
 				if ($this->ot_exist($User,'usr')) {
