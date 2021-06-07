@@ -68,13 +68,13 @@ trait Functions{
 		$this->ot_func( __METHOD__ , __FUNCTION__ , func_get_args() );
 		$retval=FALSE;
 		if ($inside=='no'){
-			if (file_exists($this->$file)){
+			if (file_exists($file)){
 				$retval = TRUE;
 			} else {
 				$this->ot_ae($error,$file,$inside);
 			}
 		} else{
-			if (file_exists($this->$inside. '/'.$file)){
+			if (file_exists($inside. '/'.$file)){
 				$retval = TRUE;
 			} else {
 				$this->ot_ae($error,$file,$inside);				

@@ -38,7 +38,6 @@ trait Cripto{
 					while (!feof($stream)) {
 						$vread.=fgets($stream);
 					}
-					echo $vread;
 					$vread2=json_decode($vread,true);
 					print_r($vread2);
 					$vread = array_merge($vread2,$vread);
