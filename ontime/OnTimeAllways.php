@@ -16,9 +16,9 @@ trait Allways{
 	private $Usrtimeformat = 'YmdHisP';
 	private $TimeStamp = 'YmdHisP';	
 	private $path = 'none';
-	private $lengR = 'en';
-	private $lengW = 'en';
-	private $lengD = 'en';
+	private $lengR = 'none';
+	private $lengW = 'none';
+	private $lengD = 'none';
 	private $lengF = 'yes';
 	
 
@@ -34,14 +34,6 @@ function __construct($container='../ontime',$user='none',$pass='pass'){
     	$this->Systimezone=$this->retval;} 
    	if ($this->ot_getinside('ft','admin.json','main')){
    		$this->Systimeformat=$this->retval;} 
-   	if ($this->ot_getinside('lr','admin.json','main')){
-   		$this->lengR = $this->retval;} 
-   	if ($this->ot_getinside('lw','admin.json','main')){
-   		$this->lengW = $this->retval;} 
-   	if ($this->ot_getinside('ld','admin.json','main')){
-    		$this->lengD = $this->retval;} 
-   	if ($this->ot_getinside('lf','admin.json','main')){
-    	$this->lengF = 'none';} 
 	if ($user!='none'){
 		$this->Connect($user, $pass);}			
 
@@ -51,7 +43,7 @@ function __construct($container='../ontime',$user='none',$pass='pass'){
 function Connect($User, $Password){
 			if ($this->ot_connect(FALSE)) {
 				if ($this->ot_exist($User,'usr')) {
-					$atmp=$this->ot_read('admin.json','usr/'.$User);
+					$atmp=$this->ot_readif('admin.json','usr/'.$User);
 					if ($this->ot_value($atmp['password'],MD5($Password),"C0010M012")) {
 						if ($this->ot_value($atmp['status'],'active',"C0010M022")) {
 							$this->conected=TRUE;
@@ -200,3 +192,4 @@ function Connect($User, $Password){
 		return $retval;
 	}
 }
+?>
